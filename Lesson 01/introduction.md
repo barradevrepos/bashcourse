@@ -1,250 +1,248 @@
-# Lesson 1: bash scripting
+# Lesson 1: Bash scripting
 
-Bash es un lenguaje de programación y, al mismo tiempo, un intérprete de comandos. Su principal característica es que está pensado para interactuar directamente con el sistema operativo y con las herramientas que este proporciona.
+Bash is a programming language and, at the same time, a command interpreter. Its main characteristic is that it is designed to interact directly with the operating system and with the tools it provides.
 
-En otros lenguajes, como Python o PHP, es habitual incorporar bibliotecas que agregan funciones para resolver determinadas tareas. Por ejemplo, una biblioteca puede permitir trabajar con archivos, conectarse a una base de datos, realizar solicitudes de red o procesar información.
+In other languages, such as Python or PHP, it is common to include libraries that add functions to perform specific tasks. For example, a library may allow us to work with files, connect to a database, make network requests, or process information.
 
-En Bash, gran parte de esas funciones ya están disponibles a través de las propias herramientas del sistema operativo. Comandos como `grep`, `find`, `sed`, `awk`, `curl`, `ps` o `ip` pueden verse, en cierto sentido, como las herramientas con las que Bash construye sus soluciones.
+In Bash, many of these functions are already available through the operating system's own tools. Commands such as `grep`, `find`, `sed`, `awk`, `curl`, `ps`, or `ip` can be seen, in a certain sense, as the tools Bash uses to build its solutions.
 
-De esta forma, Bash permite combinar programas pequeños y especializados, pasando información de unos a otros y controlando su ejecución mediante estructuras propias del lenguaje.
+In this way, Bash allows us to combine small, specialized programs, passing information from one to another and controlling their execution through the language's own structures.
 
-Por este motivo, aprender Bash no consiste solamente en aprender su sintaxis. También implica conocer progresivamente las herramientas disponibles en un sistema GNU/Linux y entender cómo pueden trabajar juntas.
+For this reason, learning Bash is not only about learning its syntax. It also involves progressively becoming familiar with the tools available on a GNU/Linux system and understanding how they can work together.
 
-### Primer contacto con las herramientas del sistema
+### First contact with system tools
 
-Podemos comenzar ejecutando algunos comandos simples para obtener información sobre distintos aspectos del sistema operativo.
+We can begin by running a few simple commands to obtain information about different aspects of the operating system.
 
-Por ejemplo:
+For example:
 
 ```bash
 uname -a
 ```
 
-Muestra información sobre el sistema y el kernel.
+Displays information about the system and the kernel.
 
 ```bash
 free -h
 ```
 
-Muestra información sobre el uso de la memoria.
+Displays information about memory usage.
 
 ```bash
 df -h
 ```
 
-Muestra información sobre el espacio utilizado y disponible en los sistemas de archivos.
+Displays information about used and available space on file systems.
 
-Podemos ejecutar cada comando de forma independiente, pero Bash también permite escribir varios comandos en una misma línea separándolos mediante `;`.
+We can execute each command independently, but Bash also allows us to write several commands on the same line by separating them with `;`.
 
-Por ejemplo:
-
-```bash
-uname -a ; free -h ; df -h
-```
-
-En este caso, Bash ejecutará los tres comandos, uno después del otro.
-
-Cuando abrimos una terminal y trabajamos desde la línea de comandos, normalmente estamos interactuando con una instancia de Bash que se encuentra en ejecución. Bash actúa como intérprete: recibe lo que escribimos, interpreta la instrucción y se encarga de ejecutar los comandos correspondientes. Esto ocurre tanto cuando ejecutamos un único comando como cuando combinamos varios comandos en una misma línea.
-
-
-
-### Nuestro primer script
-
-Un script de Bash es, en esencia, un archivo que contiene una secuencia de comandos ordenados según la tarea que queremos realizar.
-
-Cuando ejecutamos ese archivo, invocamos a un intérprete Bash que irá leyendo las instrucciones y ejecutándolas una por una, en el orden en que aparecen.
-
-Conceptualmente, no es muy diferente de lo que hicimos antes al escribir varios comandos separados por `;`:
+For example:
 
 ```bash
 uname -a ; free -h ; df -h
 ```
 
-En un script podemos escribir esos mismos comandos uno debajo del otro y guardar la secuencia para ejecutarla cuando la necesitemos.
+In this case, Bash will execute the three commands one after another.
 
-El archivo de este ejemplo será:
+When we open a terminal and work from the command line, we are normally interacting with a running Bash instance. Bash acts as an interpreter: it receives what we type, interprets the instruction, and executes the corresponding commands. This happens both when we run a single command and when we combine several commands on the same line.
+
+### Our first script
+
+A Bash script is, essentially, a file that contains a sequence of commands arranged according to the task we want to perform.
+
+When we execute that file, we invoke a Bash interpreter that reads the instructions and executes them one by one, in the order in which they appear.
+
+Conceptually, this is not very different from what we did earlier when we wrote several commands separated by `;`:
+
+```bash
+uname -a ; free -h ; df -h
+```
+
+In a script, we can write those same commands one below another and save the sequence so that we can run it whenever we need it.
+
+The file in this example will be:
 
 ```text
 /home/user/commands.sh
 ```
 
-Su contenido será:
+Its contents will be:
 
 ```bash
 #!/bin/bash
 
-# Archivo: /home/user/commands.sh
-# reemplazar 'user' con el usuario correspondiente
+# File: /home/user/commands.sh
+# Replace 'user' with the corresponding username
 
-# Mostrar información del sistema y del kernel
+# Display system and kernel information
 uname -a
 
-# Mostrar información sobre el uso de memoria
+# Display memory usage information
 free -h
 
-# Mostrar información sobre el espacio en los sistemas de archivos
+# Display file system space information
 df -h
 ```
 
-La primera línea:
+The first line:
 
 ```bash
 #!/bin/bash
 ```
 
-indica qué intérprete debe utilizarse para ejecutar el contenido del archivo.
+indicates which interpreter should be used to execute the contents of the file.
 
-De esta manera, Bash recorre el script y ejecuta cada comando uno después del otro.
+In this way, Bash goes through the script and executes each command one after another.
 
-### Formas de ejecutar un script
+### Ways to execute a script
 
-Una forma de ejecutar nuestro script es invocar explícitamente un nuevo intérprete de Bash y pasarle el archivo que debe procesar:
+One way to execute our script is to explicitly invoke a new Bash interpreter and pass it the file it should process:
 
 ```bash
 bash /home/user/commands.sh
 ```
 
-En este caso, se inicia una nueva instancia de Bash, que abre el archivo, recorre sus instrucciones y las ejecuta una por una.
+In this case, a new Bash instance is started. It opens the file, reads its instructions, and executes them one by one.
 
-Otra posibilidad es darle permiso de ejecución al archivo:
+Another possibility is to give the file execution permission:
 
 ```bash
 chmod +x /home/user/commands.sh
 ```
 
-y ejecutarlo directamente:
+and execute it directly:
 
 ```bash
 /home/user/commands.sh
 ```
 
-O si estamos posicionados en el mismo directorio que el archivo podemos usar la forma de ruta relativa:
+Or, if we are currently in the same directory as the file, we can use a relative path:
 
 ```
 ./commands.sh
 ```
 
-En este caso, el sistema utiliza la primera línea del script:
+In this case, the system uses the first line of the script:
 
 ```bash
 #!/bin/bash
 ```
 
-para determinar qué intérprete debe ejecutar el archivo.
+to determine which interpreter should execute the file.
 
-Es importante notar que esta segunda forma tampoco ejecuta el script dentro del Bash que tenemos actualmente abierto: se inicia el intérprete indicado por el `#!`. Para ejecutarlo dentro del intérprete Bash actual se utilizaría `source`:
+It is important to note that this second method does not execute the script inside the Bash instance we currently have open either: the interpreter specified by `#!` is started. To execute the script within the current Bash interpreter, we would use `source`:
 
 ```bash
 source /home/user/commands.sh
 ```
 
-### Redirección de la salida
+### Output redirection
 
-Bash permite redirigir la salida de un comando hacia un archivo utilizando los operadores `>` y `>>`.
+Bash allows us to redirect the output of a command to a file using the `>` and `>>` operators.
 
-El operador `>` guarda la salida en un archivo. Si el archivo ya existe, reemplaza su contenido.
-
-```bash
-uname -a > sistema.txt
-```
-
-El operador `>>` también guarda la salida en un archivo, pero agrega la nueva información al final sin borrar lo que ya contiene.
+The `>` operator stores the output in a file. If the file already exists, its contents are replaced.
 
 ```bash
-free -h >> sistema.txt
+uname -a > system.txt
 ```
 
-Podemos aplicar esto a nuestro script para guardar toda la información obtenida en un único archivo:
+The `>>` operator also stores output in a file, but appends the new information to the end without deleting the existing contents.
+
+```bash
+free -h >> system.txt
+```
+
+We can apply this to our script to store all the information obtained in a single file:
 
 ```bash
 #!/bin/bash
 
-# Archivo: /home/user/commands.sh
+# File: /home/user/commands.sh
 
-# Crear el archivo de informe e indicar qué usuario lo generó
-# $USER es una variable de entorno que contiene tu nombre de usuario
-echo "Informe generado por $USER" > /home/$USER/system-info.txt
+# Create the report file and indicate which user generated it
+# $USER is an environment variable that contains your username
+echo "Report generated by $USER" > /home/$USER/system-info.txt
 
-# Agregar la fecha y hora de generación
-# $HOME es una variable de entorno que contiene la ruta de tu directorio de usurio
+# Add the generation date and time
+# $HOME is an environment variable that contains the path to your home directory
 date >> $HOME/system-info.txt
 
-# Agregar información del sistema y del kernel
+# Add system and kernel information
 uname -a >> $HOME/system-info.txt
 
-# Agregar información sobre el uso de memoria
+# Add memory usage information
 free -h >> $HOME/system-info.txt
 
-# Agregar información sobre los sistemas de archivos
+# Add file system information
 df -h >> $HOME/system-info.txt
 
 ```
 
-En este caso, `system-info.txt` se crea o se reemplaza al ejecutar el primer comando y los siguientes comandos agregan su salida al final del mismo archivo.
+In this case, `system-info.txt` is created or replaced when the first command is executed, and the following commands append their output to the end of the same file.
 
-El contenido del archivo generado puede mostrarse en la terminal utilizando el comando `cat`:
+The contents of the generated file can be displayed in the terminal using the `cat` command:
 
 ```bash
 cat /home/$USER/system-info.txt
 ```
 
-`cat` lee el contenido del archivo y lo imprime directamente en la salida estándar.
+`cat` reads the contents of the file and prints them directly to standard output.
 
-### Salida estándar y salida de error
+### Standard output and error output
 
-Cuando ejecutamos un comando, Bash distingue entre la salida normal del programa y los mensajes de error.
+When we execute a command, Bash distinguishes between the program's normal output and its error messages.
 
-Podemos verlo con este ejemplo:
-
-```bash
-ls /home /nofile > ~/salida.txt
-```
-
-`/home` existe, por lo que su contenido se envía a `salida.txt` dentro de nuestro directorio personal. En cambio, `/nofile` no existe y el mensaje de error se sigue mostrando en la terminal.
-
-Esto ocurre porque `>` redirige únicamente la salida estándar.
-
-Los mensajes de error utilizan otro canal, identificado como `2`. Para redirigir solamente los errores podemos utilizar:
+We can see this with the following example:
 
 ```bash
-ls /home /nofile 2> ~/errores.txt
+ls /home /nofile > ~/output.txt
 ```
 
-En este caso, la información correspondiente a `/home` se muestra normalmente en la terminal, mientras que el error producido por `/nofile` se guarda en `errores.txt`.
+`/home` exists, so its contents are sent to `output.txt` inside our home directory. On the other hand, `/nofile` does not exist, and the error message is still displayed in the terminal.
 
-También podemos redirigir cada salida a un archivo diferente:
+This happens because `>` redirects only standard output.
+
+Error messages use another channel, identified as `2`. To redirect only errors, we can use:
 
 ```bash
-ls /home /nofile > ~/salida.txt 2> ~/errores.txt
+ls /home /nofile 2> ~/errors.txt
 ```
 
-De esta manera, la salida correcta queda almacenada en `~/salida.txt` y los mensajes de error en `~/errores.txt`.
+In this case, the information corresponding to `/home` is displayed normally in the terminal, while the error produced by `/nofile` is stored in `errors.txt`.
 
-También podemos enviar tanto la salida estándar como los mensajes de error al mismo archivo:
+We can also redirect each output stream to a different file:
 
 ```bash
-ls /home /nofile > ~/resultado.txt 2>&1
+ls /home /nofile > ~/output.txt 2> ~/errors.txt
 ```
 
-En este caso, `>` redirige la salida estándar hacia `resultado.txt` y `2>&1` indica que la salida de error debe enviarse al mismo destino que la salida estándar.
+In this way, the successful output is stored in `~/output.txt` and the error messages are stored in `~/errors.txt`.
 
-## Actividades
+We can also send both standard output and error output to the same file:
 
-### Entorno
+```bash
+ls /home /nofile > ~/result.txt 2>&1
+```
 
-Para realizar las actividades de esta lección vamos a utilizar una máquina virtual con Debian o Ubuntu.
+In this case, `>` redirects standard output to `result.txt`, and `2>&1` indicates that error output should be sent to the same destination as standard output.
 
-El objetivo será trabajar directamente desde una terminal Bash y aplicar sobre un mismo script los conceptos vistos hasta ahora: ejecución de comandos, uso de variables de entorno y redirección de la salida.
+## Activities
 
-El script deberá utilizar las variables `$USER` y `$HOME`, que ya vimos anteriormente. `$USER` contiene el nombre del usuario actual y `$HOME` contiene la ruta de su directorio personal.
+### Environment
 
-También utilizaremos los operadores de redirección `>`, `>>` y `2>`, para controlar dónde se almacenan la salida estándar y los mensajes de error producidos por los comandos.
+To complete the activities in this lesson, we will use a virtual machine running Debian or Ubuntu.
 
-### Actividad: automatizar la actualización del sistema
+The goal is to work directly from a Bash terminal and apply the concepts covered so far in the same script: command execution, environment variables, and output redirection.
 
-En Debian y Ubuntu, `apt` es una de las principales herramientas utilizadas para administrar paquetes de software. Permite consultar los repositorios configurados, instalar o eliminar paquetes y mantener actualizado el sistema.
+The script should use the `$USER` and `$HOME` environment variables introduced earlier. `$USER` contains the name of the current user, and `$HOME` contains the path to that user's home directory.
 
-Una actualización habitual puede incluir varias operaciones:
+We will also use the `>`, `>>`, and `2>` redirection operators to control where standard output and the error messages produced by commands are stored.
+
+### Activity: automate system updates
+
+On Debian and Ubuntu, `apt` is one of the main tools used to manage software packages. It allows us to query configured repositories, install or remove packages, and keep the system up to date.
+
+A typical update process may include several operations:
 
 ```bash
 sudo apt update
@@ -253,85 +251,85 @@ sudo apt autoremove
 sudo apt clean
 ```
 
-`apt update` actualiza la información disponible sobre los paquetes y sus versiones. `apt upgrade` instala las actualizaciones disponibles. `apt autoremove` elimina dependencias que ya no son necesarias y `apt clean` elimina los paquetes descargados almacenados en la caché.
+`apt update` refreshes the available information about packages and their versions. `apt upgrade` installs available updates. `apt autoremove` removes dependencies that are no longer required, and `apt clean` removes downloaded packages stored in the cache.
 
-Algunas operaciones pueden solicitar confirmación antes de continuar. `apt` permite utilizar la opción `-y` para responder automáticamente de forma afirmativa:
+Some operations may ask for confirmation before continuing. `apt` provides the `-y` option to automatically answer yes to confirmation prompts:
 
 ```bash
 sudo apt upgrade -y
 ```
 
-Esto resulta especialmente útil cuando una operación forma parte de un script y queremos evitar que quede detenida esperando una respuesta del usuario.
+This is especially useful when an operation is part of a script and we want to prevent execution from stopping while waiting for user input.
 
-La actividad consiste en crear un script que automatice este proceso de actualización. Además de ejecutar los comandos necesarios, nos interesa registrar qué sucede durante su ejecución.
+The activity consists of creating a script that automates this update process. In addition to executing the required commands, we are interested in recording what happens during its execution.
 
-Para ello deberás utilizar las redirecciones estudiadas anteriormente, separando la salida estándar de los mensajes de error y almacenando ambas en archivos dentro del directorio personal del usuario. También deberás utilizar las variables de entorno `$USER` y `$HOME` para identificar al usuario que ejecutó el proceso y determinar dónde guardar los archivos generados.
+To do this, you should use the redirections studied earlier, separating standard output from error messages and storing both in files inside the user's home directory. You should also use the `$USER` and `$HOME` environment variables to identify the user who ran the process and determine where the generated files should be stored.
 
-El objetivo no es solamente automatizar la actualización, sino también dejar un registro que permita revisar posteriormente qué ocurrió durante el proceso.
+The objective is not only to automate the update, but also to leave a record that can later be reviewed to determine what happened during the process.
 
-**Pruebas del script**
+**Script tests**
 
-Una vez creado el script, no alcanza con comprobar que se ejecuta. También debemos verificar que las redirecciones funcionen correctamente y que podamos distinguir qué ocurrió durante el proceso.
+Once the script has been created, it is not enough to check that it runs. We should also verify that the redirections work correctly and that we can distinguish what happened during the process.
 
-Realizá distintas pruebas y observá qué información queda registrada en cada archivo.
+Perform different tests and observe what information is recorded in each file.
 
-1. Ejecutá el script con privilegios administrativos.
+1. Run the script with administrative privileges.
 
-   Comprobá que la actualización pueda realizarse y revisá qué información quedó almacenada en el archivo de salida estándar y cuál en el archivo de errores.
+   Verify that the update can be performed and review what information was stored in the standard output file and what was stored in the error file.
 
-2. Ejecutá el mismo script sin privilegios administrativos.
+2. Run the same script without administrative privileges.
 
-   Observá qué comandos fallan y verificá que esos mensajes queden registrados en el archivo destinado a la salida de error.
+   Observe which commands fail and verify that those messages are recorded in the file intended for error output.
 
-3. Ejecutá el script con conexión a Internet.
+3. Run the script with an Internet connection.
 
-   Comprobá que `apt update` pueda acceder a los repositorios y revisá qué información genera durante el proceso.
+   Verify that `apt update` can access the repositories and review the information it produces during the process.
 
-4. Desconectá temporalmente la máquina virtual de la red y ejecutá nuevamente el script.
+4. Temporarily disconnect the virtual machine from the network and run the script again.
 
-   Observá los errores producidos al intentar acceder a los repositorios y verificá que sean enviados al archivo correspondiente.
+   Observe the errors produced when attempting to access the repositories and verify that they are sent to the corresponding file.
 
-5. Finalmente, compará los archivos generados en cada prueba utilizando `cat`.
+5. Finally, compare the files generated by each test using `cat`.
 
-El objetivo de estas pruebas es comprobar que el script no solamente automatiza la actualización, sino que también permite documentar qué ocurrió durante una ejecución normal y qué ocurrió cuando apareció un problema.
+The objective of these tests is to verify that the script not only automates the update process, but also documents what happened during a normal execution and what happened when a problem occurred.
 
-### Actividad: búsqueda de archivos con `find`
+### Activity: searching for files with `find`
 
-El comando `find` permite buscar archivos y directorios a partir de diferentes criterios, como su nombre, tipo, ubicación o fecha de modificación.
+The `find` command allows us to search for files and directories using different criteria, such as name, type, location, or modification date.
 
-La forma general de uso es:
+The general form is:
 
 ```bash
-find ruta criterios
+find path criteria
 ```
 
-Por ejemplo, para buscar dentro de `/etc` todos los archivos cuya extensión sea `.conf`:
+For example, to search inside `/etc` for all files with the `.conf` extension:
 
 ```bash
 find /etc -type f -name "*.conf"
 ```
 
-`/etc` indica desde dónde comienza la búsqueda, `-type f` limita el resultado a archivos regulares y `-name "*.conf"` selecciona únicamente aquellos cuyo nombre termina en `.conf`.
+`/etc` indicates where the search begins, `-type f` limits the result to regular files, and `-name "*.conf"` selects only those whose names end in `.conf`.
 
-También podemos buscar solamente los archivos que se encuentran directamente dentro de `/proc`:
+We can also search only for files located directly inside `/proc`:
 
 ```bash
 find /proc -maxdepth 1 -type f
 ```
 
-La opción `-maxdepth 1` evita que `find` continúe buscando dentro de los subdirectorios.
+The `-maxdepth 1` option prevents `find` from continuing the search inside subdirectories.
 
-Otro criterio posible es la fecha de modificación. Para buscar archivos modificados durante los últimos siete días dentro de `/var/log`:
+Another possible criterion is the modification date. To search inside `/var/log` for files modified during the last seven days:
 
 ```bash
 find /var/log -type f -mtime -7
 ```
 
-`-mtime -7` selecciona archivos cuyo contenido fue modificado hace menos de siete días.
+`-mtime -7` selects files whose contents were modified less than seven days ago.
 
-**Consigna**
+**Assignment**
 
-Creá un script que realice las tres búsquedas anteriores de manera automática:
+Create a script that automatically performs the three searches above:
 
 ```bash
 find /etc -type f -name "*.conf"
@@ -341,32 +339,32 @@ find /proc -maxdepth 1 -type f
 find /var/log -type f -mtime -7
 ```
 
-El script deberá guardar los resultados de las búsquedas en archivos dentro del directorio personal del usuario.
+The script should save the search results in files inside the user's home directory.
 
-Utilizá las variables de entorno `$USER` y `$HOME` y los operadores de redirección estudiados anteriormente.
+Use the `$USER` and `$HOME` environment variables and the redirection operators studied earlier.
 
-Separá la salida estándar de los mensajes de error, de manera que sea posible consultar posteriormente tanto los archivos encontrados como los problemas que se produjeron durante las búsquedas.
+Separate standard output from error messages so that both the files found and any problems that occurred during the searches can be reviewed later.
 
-**Pruebas**
+**Tests**
 
-Una vez terminado el script, realizá diferentes ejecuciones para comprobar el funcionamiento de las redirecciones.
+Once the script is finished, perform different executions to verify that the redirections work correctly.
 
-Primero ejecutalo normalmente, sin privilegios administrativos:
+First, run it normally, without administrative privileges:
 
 ```bash
 ./find-files.sh
 ```
 
-Revisá los archivos generados y observá si alguna de las búsquedas produce mensajes de error debido a directorios o archivos para los cuales el usuario no tiene permisos suficientes.
+Review the generated files and observe whether any of the searches produce error messages because the user does not have sufficient permissions for certain directories or files.
 
-Después ejecutá el mismo script con privilegios administrativos:
+Then run the same script with administrative privileges:
 
 ```bash
 sudo ./find-files.sh
 ```
 
-Compará los resultados con la ejecución anterior.
+Compare the results with the previous execution.
 
-Finalmente, utilizá `cat` para revisar tanto la salida estándar como los mensajes de error que quedaron registrados.
+Finally, use `cat` to review both the standard output and the error messages that were recorded.
 
-El objetivo de la actividad es comprobar cómo un mismo comando puede producir resultados diferentes dependiendo de los permisos del usuario y cómo las redirecciones permiten conservar por separado la información obtenida y los errores producidos durante la ejecución.
+The objective of the activity is to verify how the same command can produce different results depending on the user's permissions and how redirections make it possible to preserve the information obtained and the errors produced during execution in separate files.
